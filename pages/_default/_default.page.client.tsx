@@ -2,6 +2,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import { getPage } from "vite-plugin-ssr/client";
 import { PageLayout } from "./PageLayout";
+import { server } from 'telefunc/client'
 
 hydrate();
 
@@ -14,4 +15,5 @@ async function hydrate() {
     </PageLayout>,
     document.getElementById("page-view")
   );
+  console.log('m', await server.hello('rom'))
 }

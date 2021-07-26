@@ -1,5 +1,7 @@
 import express from "express";
 import { createPageRender } from "vite-plugin-ssr";
+import { telefunc } from "telefunc/server/express";
+import './hello'
 
 const isProduction = process.env.NODE_ENV === "production";
 const root = `${__dirname}/..`;
@@ -20,6 +22,8 @@ async function startServer() {
     });
     app.use(viteDevServer.middlewares);
   }
+
+  app.use(telefunc());
 
   const renderPage = createPageRender({ viteDevServer, isProduction, root });
   app.get("*", async (req, res, next) => {
