@@ -1,7 +1,6 @@
 import express from "express";
 import { createPageRender } from "vite-plugin-ssr";
-import { telefunc } from "telefunc/server/express";
-import './hello'
+import { createTelefuncCaller } from "telefunc/server";
 
 const isProduction = process.env.NODE_ENV === "production";
 const root = `${__dirname}/..`;
@@ -23,7 +22,24 @@ async function startServer() {
     app.use(viteDevServer.middlewares);
   }
 
-  app.use(telefunc());
+  const callTelefunc = createTelefuncCaller({ viteDevServer, isProduction, root });
+  app.all("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    const method: string = req.method;
+    //const headers: Record<string, string> = req.headers; // TODO
+    const headers: Record<string, string> = {}
+    const body: string = req.body
+    const ctx = {
+      url,
+      method,
+      headers,
+      body,
+    };
+    const result = await callTelefunc(ctx);
+    // console.log('rrr', url, method, result)
+    if (!result) return next();
+    res.status(result.statusCode).send(result.body);
+  });
 
   const renderPage = createPageRender({ viteDevServer, isProduction, root });
   app.get("*", async (req, res, next) => {

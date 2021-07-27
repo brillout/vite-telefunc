@@ -8,9 +8,9 @@ function Counter() {
   return (
     <button
       type="button"
-      onClick={() => {
+      onClick={async () => {
         setCount((count) => count + 1);
-        hello2("Counter click");
+        console.log(await hello2("Counter click"));
       }}
     >
       Counter {count}
