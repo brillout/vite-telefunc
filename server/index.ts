@@ -23,19 +23,11 @@ async function startServer() {
   }
 
   const callTelefunc = createTelefuncCaller({ viteDevServer, isProduction, root });
+  app.use(express.raw())
   app.all("*", async (req, res, next) => {
-    const url = req.originalUrl;
-    const method: string = req.method;
-    //const headers: Record<string, string> = req.headers; // TODO
-    const headers: Record<string, string> = {}
-    const body: string = req.body
-    const ctx = {
-      url,
-      method,
-      headers,
-      body,
-    };
-    const result = await callTelefunc(ctx);
+    const {originalUrl: url, method, body, headers } = req
+    const context = {};
+    const result = await callTelefunc({  url, method, body, headers }, context);
     // console.log('rrr', url, method, result)
     if (!result) return next();
     res.status(result.statusCode).send(result.body);
