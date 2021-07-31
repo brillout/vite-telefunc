@@ -3,7 +3,8 @@ import React from "react";
 import { getPage } from "vite-plugin-ssr/client";
 import { PageLayout } from "./PageLayout";
 import { server } from "telefunc/client";
-import { hello2 } from "../hello2.telefunc";
+//import { hello2 } from "../hello2.telefunc";
+import { hello2 } from "../hello2.telefunc-client";
 
 hydrate();
 
