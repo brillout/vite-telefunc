@@ -1,6 +1,6 @@
 import express from "express";
 import { createPageRender } from "vite-plugin-ssr";
-import { createTelefuncCaller } from "telefunc/server";
+import { createTelefuncCaller } from "telefunc";
 
 const isProduction = process.env.NODE_ENV === "production";
 const root = `${__dirname}/..`;
@@ -26,9 +26,10 @@ async function startServer() {
   app.use(express.raw())
   app.all("*", async (req, res, next) => {
     const {originalUrl: url, method, body, headers } = req
-    const context = {};
+    const context = {
+      headers,
+    };
     const result = await callTelefunc({  url, method, body, headers }, context);
-    // console.log('rrr', url, method, result)
     if (!result) return next();
     res.status(result.statusCode).send(result.body);
   });
