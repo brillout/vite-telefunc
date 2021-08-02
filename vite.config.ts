@@ -4,6 +4,8 @@ import telefunc from "telefunc/vite";
 import { UserConfig } from "vite";
 
 const config: UserConfig = {
+  ssr: { external: ["telefunc"] },
+  optimizeDeps: { include: ["telefunc/client"] },
   plugins: [reactRefresh(), ssr(), telefunc()],
 };
 
