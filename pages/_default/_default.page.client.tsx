@@ -2,9 +2,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import { getPage } from "vite-plugin-ssr/client";
 import { PageLayout } from "./PageLayout";
-//import { server } from "telefunc/client";
 import { hello2 } from "../hello2.telefunc";
-//import { hello2 } from "../hello2.telefunc-client";
 
 hydrate();
 
@@ -17,6 +15,5 @@ async function hydrate() {
     </PageLayout>,
     document.getElementById("page-view")
   );
-  //console.log("m1", await server.hello("rom"));
   console.log("m2", await hello2("Hydration"));
 }
